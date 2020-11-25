@@ -16,7 +16,7 @@ echo $infile
 foreach($address in [System.IO.File]::ReadLines($InFile)) {
         $ip_only = $address -replace $regex, '$1.$2.$3.$4'
         $address_command = "edit $Prefix-$ip_only"
-        $GroupSetCommand = $GroupSetCommand + "`"$address`" "
+        $GroupSetCommand = $GroupSetCommand + "`"$Prefix-$address`" "
         echo $address_command | Add-Content -Path $OutFile
         echo "set subnet $address" | Add-Content -Path $OutFile
         echo "next" | Add-Content -Path $OutFile
