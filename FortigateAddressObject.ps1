@@ -1,4 +1,4 @@
-﻿param (
+param (
     [Parameter(Mandatory)]
     [string]$InFile,
     [Parameter(Mandatory)]
@@ -13,10 +13,11 @@ $regex = [Regex]::new('(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})(/\d{2})')
 
 echo "config firewall address" | Set-Content -Path $OutFile
 echo $infile
+$GroupSetCommand = "set member "
 foreach($address in [System.IO.File]::ReadLines($InFile)) {
         $ip_only = $address -replace $regex, '$1.$2.$3.$4'
         $address_command = "edit $Prefix-$ip_only"
-        $GroupSetCommand = $GroupSetCommand + "`"$Prefix-$address`" "
+        $GroupSetCommand = $GroupSetCommand + "`"$Prefix-$ip_only`" "
         echo $address_command | Add-Content -Path $OutFile
         echo "set subnet $address" | Add-Content -Path $OutFile
         echo "next" | Add-Content -Path $OutFile
